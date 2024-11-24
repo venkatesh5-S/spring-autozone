@@ -1,22 +1,22 @@
 # Stage 1: Build the Vue.js application
-FROM node:18 as build-stage
+#FROM node:18 as build-stage
 
 # Set the working directory
-WORKDIR /app
+#WORKDIR /app
 
 
 # Copy the package.json and yarn.lock files
-COPY package*.json ./
+#COPY package*.json ./
 
 # Install dependencies using Yarn
-RUN yarn install
+#RUN yarn install
 
 
 # Copy the entire project
-COPY . .
+#COPY . .
 
 # Build the Vue.js application
-RUN yarn build
+#RUN yarn build
 
 # # Stage 2: Copy built files to a new stage
 # FROM node:18
@@ -27,10 +27,10 @@ RUN yarn build
 # COPY --from=build-stage /app/.output ./.output
 
 # Expose port
-EXPOSE 3000
-EXPOSE 80
+#EXPOSE 3000
+#EXPOSE 80
 
 # Command to run the application
-CMD node .output/server/index.mjs
+#CMD node .output/server/index.mjs
 
 
