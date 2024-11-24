@@ -30,8 +30,25 @@ steps:
       'us-central1-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_IMAGE_NAME}:$COMMIT_SHA'
     ]
 
+  # Step 4: Deploy to Cloud Run
+  - id: 'Deploy to Cloud Run'
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args:
+      - 'gcloud'
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'  # Name of your Cloud Run service
+      - '--image'
+      - 'us-central1-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_IMAGE_NAME}:$COMMIT_SHA'  # Image location in Artifact Registry
+      - '--region'
+      - 'us-central1'  # Replace with your preferred region
+      - '--platform'
+      - 'managed'  # Use the fully managed Cloud Run
+      - '--allow-unauthenticated'  # Optional, if you want public access
+
 # Define Substitutions
 substitutions:
   _PROJECT_ID: 'demopocs'  # Replace with your project ID
   _REPO_NAME: 'autozone-bc'  # Adjust repo name for the artifact registry
   _IMAGE_NAME: 'springbackend'  # Define image name as springbackend
+  _SERVICE_NAME: 'spring-backend-service'  # Define your Cloud Run service name
