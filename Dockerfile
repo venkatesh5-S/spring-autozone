@@ -1,36 +1,26 @@
-# Stage 1: Build the Vue.js application
-#FROM node:18 as build-stage
+# Stage 1: Build
+FROM maven:3.8.8-eclipse-temurin-17 AS build
+WORKDIR /app
 
-# Set the working directory
-#WORKDIR /app
+# Copy the Maven project files
+COPY pom.xml .
+COPY src ./src
 
+# Download dependencies and build the application
+RUN mvn clean package -DskipTests
 
-# Copy the package.json and yarn.lock files
-#COPY package*.json ./
+# Stage 2: Run
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
 
-# Install dependencies using Yarn
-#RUN yarn install
+# Copy the built JAR file from the previous stage
+COPY --from=build /app/target/*.jar /app/app.jar
 
-
-# Copy the entire project
-#COPY . .
-
-# Build the Vue.js application
-#RUN yarn build
-
-# # Stage 2: Copy built files to a new stage
-# FROM node:18
-
-# # Set the working directory
-
-# # Copy built files from the previous stage
-# COPY --from=build-stage /app/.output ./.output
-
-# Expose port
-#EXPOSE 3000
-#EXPOSE 80
+# Expose the default Spring Boot port
+EXPOSE 8080
 
 # Command to run the application
-#CMD node .output/server/index.mjs
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
-
+# Optional: Add health check to monitor container status
+HEALTHCHECK CMD curl --fail http://localhost:8080/actuator/health || exit 1

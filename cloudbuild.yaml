@@ -1,33 +1,33 @@
-# steps:
-#   # Step 1: Setup JDK and Build Spring Boot App
-#   - id: 'Build JAR'
-#     name: 'gcr.io/cloud-builders/mvn'
-#     args: ['clean', 'package', '-DskipTests']
+steps:
+  # Step 1: Setup JDK and Build Spring Boot App
+  - id: 'Build JAR'
+    name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'package', '-DskipTests']
 
-#   # Step 2: Build Docker Image
-#   - id: 'Build Docker Image'
-#     name: 'gcr.io/cloud-builders/docker'
-#     args: [
-#       'build',
-#       '-t',
-#       'us-central1-docker.pkg.dev/<PROJECT_ID>/<REPO_NAME>/<IMAGE_NAME>:$COMMIT_SHA',
-#       '.'
-#     ]
+  # Step 2: Build Docker Image
+  - id: 'Build Docker Image'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t',
+      'us-central1-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_IMAGE_NAME}:${COMMIT_SHA}',
+      '.'
+    ]
 
-#   # Step 3: Push Docker Image to Artifact Registry
-#   - id: 'Push Docker Image'
-#     name: 'gcr.io/cloud-builders/docker'
-#     args: [
-#       'push',
-#       'us-central1-docker.pkg.dev/<PROJECT_ID>/<REPO_NAME>/<IMAGE_NAME>:$COMMIT_SHA'
-#     ]
+  # Step 3: Push Docker Image to Artifact Registry
+  - id: 'Push Docker Image'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'us-central1-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_IMAGE_NAME}:${COMMIT_SHA}'
+    ]
 
-# # Define Substitutions
-# substitutions:
-#   _PROJECT_ID: 'your-gcp-project-id'
-#   _REPO_NAME: 'your-artifact-registry-repo'
-#   _IMAGE_NAME: 'your-docker-image-name'
+# Define Substitutions
+substitutions:
+  _PROJECT_ID: 'demopocs'
+  _REPO_NAME: 'autozone-bc'
+  _IMAGE_NAME: 'springbackend'
 
-# # Define Triggers for Specific Branches
-# trigger:
-#   branch_name: '^main$'
+# Define Trigger for Specific Branches
+trigger:
+  - branch_name: '^dev$'
