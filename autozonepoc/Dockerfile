@@ -1,11 +1,30 @@
-# Use a lightweight JDK base image
-FROM eclipse-temurin:17-jdk-alpine
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:17-jdk-slim as builder
 
-# Set working directory in the container
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the JAR file from the Maven build stage to the container
-COPY target/*.jar app.jar
+# Copy the local code to the container
+COPY . /app
 
-# Specify the command to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Install Maven
+RUN apt-get update && apt-get install -y maven
+
+# Build the Spring Boot application (skip tests if needed)
+RUN mvn clean package -DskipTests
+
+# Create the final image with a smaller base image for production
+FROM openjdk:17-jre-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the built jar file from the builder stage
+COPY --from=builder /app/target/springbackend.jar /app/springbackend.jar
+
+# Expose the port the app runs on
+EXPOSE 8080
+
+# Run the Spring Boot app
+ENTRYPOINT ["java", "-jar", "/app/springbackend.jar"]
+
