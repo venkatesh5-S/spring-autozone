@@ -1,15 +1,11 @@
-# Step 1: Use an official Java runtime as a base image
-FROM eclipse-temurin:17-jdk-alpine as build
+# Use a lightweight JDK base image
+FROM eclipse-temurin:17-jdk-alpine
 
-# Step 2: Set the working directory inside the container
+# Set working directory in the container
 WORKDIR /app
 
-# Step 3: Copy the Maven build artifact (JAR) into the container
-# Adjust the source path to the JAR as needed
+# Copy the JAR file from the Maven build stage to the container
 COPY target/*.jar app.jar
 
-# Step 4: Expose the application port (default Spring Boot is 8080)
-EXPOSE 8080
-
-# Step 5: Command to run the Spring Boot application
+# Specify the command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
