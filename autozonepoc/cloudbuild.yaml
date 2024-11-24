@@ -31,6 +31,7 @@ steps:
       'us-central1-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_IMAGE_NAME}:$COMMIT_SHA'
     ]
 
+ 
   # Step 4: Deploy to Cloud Run
   - id: 'Deploy to Cloud Run'
     name: 'gcr.io/cloud-builders/gcloud'
