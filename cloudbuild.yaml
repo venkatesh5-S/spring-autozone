@@ -1,26 +1,31 @@
+options:
+  logging: CLOUD_LOGGING_ONLY  # Store logs in Cloud Logging
+
 steps:
-  # Step 1: Build the JAR file
-  - name: 'gcr.io/cloud-builders/mvn'
+  # Step 1: Setup JDK and Build Spring Boot App
+  - id: 'Build JAR'
+    name: 'gcr.io/cloud-builders/mvn'
     args: ['clean', 'package', '-DskipTests']
-    dir: './'
 
-  # Step 2: Build Docker image
-  - name: 'gcr.io/cloud-builders/docker'
+  # Step 2: Build Docker Image
+  - id: 'Build Docker Image'
+    name: 'gcr.io/cloud-builders/docker'
     args: [
-      'build', 
-      '-t', 'us-central1-docker.pkg.dev/demopocs/autozone-bc/springbackend:$COMMIT_SHA', 
-      '.'
-    ]
-
-  # Step 3: Push Docker image
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [
-      'push', 
+      'build',
+      '-t',
       'us-central1-docker.pkg.dev/demopocs/autozone-bc/springbackend:$COMMIT_SHA'
     ]
 
-images:
-  - 'us-central1-docker.pkg.dev/demopocs/autozone-bc/springbackend:$COMMIT_SHA'
+  # Step 3: Push Docker Image to Artifact Registry
+  - id: 'Push Docker Image'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'us-central1-docker.pkg.dev/demopocs/autozone-bc/springbackend:$COMMIT_SHA'
+    ]
 
+# Define Substitutions
 substitutions:
   _PROJECT_ID: 'demopocs'
+  _REPO_NAME: 'us-central1-docker.pkg.dev/demopocs/autozone-bc'
+  _IMAGE_NAME: 'springbackend'
