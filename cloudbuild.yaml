@@ -5,7 +5,7 @@ steps:
   # Step 1: Setup JDK and Build Spring Boot App
   - id: 'Build JAR'
     name: 'gcr.io/cloud-builders/mvn'
-    args: ['clean', 'package', '-DskipTests']
+    args: ['clean', 'package', '-DskipTests', '-X']
     dir: '/workspace/autozonepoc'  # Make sure Maven runs from the root of the workspace (default in Cloud Build)
     # Ensure we are in the correct directory to find the pom.xml
 
