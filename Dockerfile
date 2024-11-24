@@ -24,4 +24,4 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
 # Optional: Add health check to monitor container status
-HEALTHCHECK CMD curl --fail http://localhost:8080/actuator/health || exit 1
+# HEALTHCHECK CMD curl --fail http://localhost:8080/actuator/health || exit 1
