@@ -1,11 +1,13 @@
 options:
   logging: CLOUD_LOGGING_ONLY  # Store logs in Cloud Logging
 
- steps:
-#   # Step 1: Setup JDK and Build Spring Boot App
-#   - id: 'Build JAR'
-#     name: 'gcr.io/cloud-builders/mvn'
-#     args: ['clean', 'package', '-DskipTests']
+steps:
+  # Step 1: Setup JDK and Build Spring Boot App
+  - id: 'Build JAR'
+    name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'package', '-DskipTests']
+    dir: '/workspace/autozonepoc'  # Make sure Maven runs from the root of the workspace (default in Cloud Build)
+    # Ensure we are in the correct directory to find the pom.xml
 
   # Step 2: Build Docker Image
   - id: 'Build Docker Image'
@@ -13,7 +15,8 @@ options:
     args: [
       'build',
       '-t',
-      'us-central1-docker.pkg.dev/demopocs/autozone-bc/springbackend:$COMMIT_SHA'
+      'us-central1-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_IMAGE_NAME}:$COMMIT_SHA',
+      '.'  # The build context is the current directory
     ]
 
   # Step 3: Push Docker Image to Artifact Registry
@@ -21,11 +24,11 @@ options:
     name: 'gcr.io/cloud-builders/docker'
     args: [
       'push',
-      'us-central1-docker.pkg.dev/demopocs/autozone-bc/springbackend:$COMMIT_SHA'
+      'us-central1-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_IMAGE_NAME}:$COMMIT_SHA'
     ]
 
 # Define Substitutions
 substitutions:
   _PROJECT_ID: 'demopocs'
-  _REPO_NAME: 'us-central1-docker.pkg.dev/demopocs/autozone-bc'
-  _IMAGE_NAME: 'springbackend'
+  _REPO_NAME: 'autozone-bc'  # Adjust repo name for the artifact registry
+  _IMAGE_NAME: 'springbackend'  # Define image name as springbackend
