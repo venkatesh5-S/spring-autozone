@@ -6,7 +6,7 @@ steps:
   - id: 'Build JAR'
     name: 'gcr.io/cloud-builders/mvn'
     args: ['clean', 'package', '-DskipTests', '-X']
-    dir: 'autozonepoc'  # Make sure Maven runs from the root of the workspace (default in Cloud Build)
+    dir: '/workspace/autozonepoc'  # Ensure Maven runs from the root of the workspace
     # Ensure we are in the correct directory to find the pom.xml
 
   # Step 2: Build Docker Image
@@ -16,8 +16,11 @@ steps:
       'build',
       '-t',
       'us-central1-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_IMAGE_NAME}:$COMMIT_SHA',
-      '.'  # The build context is the current directory
+      '-f',
+      '/workspace/autozonepoc/Dockerfile',  # Explicitly specify the Dockerfile path
+      '.'  # Ensure the context is set to the correct directory (i.e., /workspace/autozonepoc)
     ]
+    dir: '/workspace/autozonepoc'  # Ensure Docker build happens from the correct directory
 
   # Step 3: Push Docker Image to Artifact Registry
   - id: 'Push Docker Image'
@@ -29,6 +32,6 @@ steps:
 
 # Define Substitutions
 substitutions:
-  _PROJECT_ID: 'demopocs'
+  _PROJECT_ID: 'demopocs'  # Replace with your project ID
   _REPO_NAME: 'autozone-bc'  # Adjust repo name for the artifact registry
   _IMAGE_NAME: 'springbackend'  # Define image name as springbackend
