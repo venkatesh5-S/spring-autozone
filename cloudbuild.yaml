@@ -1,7 +1,7 @@
 options:
   logging: CLOUD_LOGGING_ONLY  # Store logs in Cloud Logging
 
-# steps:
+ steps:
 #   # Step 1: Setup JDK and Build Spring Boot App
 #   - id: 'Build JAR'
 #     name: 'gcr.io/cloud-builders/mvn'
