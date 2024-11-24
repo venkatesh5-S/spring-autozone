@@ -1,11 +1,11 @@
-options:
-  logging: CLOUD_LOGGING_ONLY  # Store logs in Cloud Logging
+# options:
+#   logging: CLOUD_LOGGING_ONLY  # Store logs in Cloud Logging
 
-steps:
-  # Step 1: Setup JDK and Build Spring Boot App
-  - id: 'Build JAR'
-    name: 'gcr.io/cloud-builders/mvn'
-    args: ['clean', 'package', '-DskipTests']
+# steps:
+#   # Step 1: Setup JDK and Build Spring Boot App
+#   - id: 'Build JAR'
+#     name: 'gcr.io/cloud-builders/mvn'
+#     args: ['clean', 'package', '-DskipTests']
 
   # Step 2: Build Docker Image
   - id: 'Build Docker Image'
