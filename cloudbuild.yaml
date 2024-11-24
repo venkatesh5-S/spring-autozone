@@ -10,8 +10,7 @@ steps:
     args: [
       'build',
       '-t',
-      'us-central1-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_IMAGE_NAME}:${COMMIT_SHA}',
-      '.'
+      'us-central1-docker.pkg.dev/demopocs/autozone-bc/springbackend:$COMMIT_SHA'
     ]
 
   # Step 3: Push Docker Image to Artifact Registry
@@ -19,15 +18,11 @@ steps:
     name: 'gcr.io/cloud-builders/docker'
     args: [
       'push',
-      'us-central1-docker.pkg.dev/${_PROJECT_ID}/${_REPO_NAME}/${_IMAGE_NAME}:${COMMIT_SHA}'
+      'us-central1-docker.pkg.dev/demopocs/autozone-bc/springbackend:$COMMIT_SHA'
     ]
 
 # Define Substitutions
 substitutions:
   _PROJECT_ID: 'demopocs'
-  _REPO_NAME: 'autozone-bc'
+  _REPO_NAME: 'us-central1-docker.pkg.dev/demopocs/autozone-bc'
   _IMAGE_NAME: 'springbackend'
-
-# Define Trigger for Specific Branches
-trigger:
-  - branch_name: '^dev$'
