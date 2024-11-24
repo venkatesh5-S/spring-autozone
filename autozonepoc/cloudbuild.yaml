@@ -9,6 +9,7 @@ steps:
     dir: '/workspace/autozonepoc'  # Ensure Maven runs from the root of the workspace
     # Ensure we are in the correct directory to find the pom.xml
 
+  
   # Step 2: Build Docker Image
   - id: 'Build Docker Image'
     name: 'gcr.io/cloud-builders/docker'
