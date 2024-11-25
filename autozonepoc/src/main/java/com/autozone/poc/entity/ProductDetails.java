@@ -16,66 +16,68 @@ import java.time.LocalDateTime;
 public class ProductDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @SequenceGenerator(name="id",sequenceName = "products_details_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
     private Integer id;
 
-    @Column(name = "PartID", length = 100)
+    @Column(name = "partid", length = 100)
     private String partID;
 
-    @Column(name = "PartName", length = 100)
+    @Column(name = "partname", length = 100)
     private String partName;
 
-    @Column(name = "PartDescription", length = 100)
+    @Column(name = "partdescription", length = 100)
     private String partDescription;
 
-    @Column(name = "Category", length = 100)
+    @Column(name = "category", length = 100)
     private String category;
 
-    @Column(name = "BrandName", length = 100)
+    @Column(name = "brandname", length = 100)
     private String brandName;
 
-    @Column(name = "Compatibility", length = 100)
+    @Column(name = "compatibility", length = 100)
     private String compatibility;
 
-    @Column(name = "Material", length = 100)
+    @Column(name = "material", length = 100)
     private String material;
 
-    @Column(name = "Dimensions", length = 100)
+    @Column(name = "dimensions", length = 100)
     private String dimensions;
-    @Column(name = "WarrantyPeriod")
+    @Column(name = "warrantyperiod")
     private Integer warrantyPeriod;
 
-    @Column(name = "SupplierName", length = 100)
+    @Column(name = "suppliername", length = 100)
     private String supplierName;
 
-    @Column(name = "UnitPrice", precision = 10, scale = 4)
+    @Column(name = "unitprice", precision = 10, scale = 4)
     private BigDecimal unitPrice;
 
-    @Column(name = "StockValue", precision = 10, scale = 4)
+    @Column(name = "stockvalue", precision = 10, scale = 4)
     private BigDecimal stockValue;
 
-    @Column(name = "RestockLeadTime")
+    @Column(name = "restockleadtime")
     private Integer restockLeadTime;
 
-    @Column(name = "LeadTimeVariability", length = 100)
+    @Column(name = "leadtimevariability", length = 100)
     private String leadTimeVariability;
 
-    @Column(name = "BatchNumber", length = 100)
+    @Column(name = "batchnumber", length = 100)
     private String batchNumber;
 
-    @Column(name = "ExpiryDate")
+    @Column(name = "expirydate")
     private LocalDate expiryDate;
 
-    @Column(name = "StorageConditions", length = 100)
+    @Column(name = "storageconditions", length = 100)
     private String storageConditions;
 
-    @Column(name = "LocationInWarehouse", length = 100)
+    @Column(name = "locationinwarehouse", length = 100)
     private String locationInWarehouse;
 
-    @Column(name = "LastRestockedDate")
+    @Column(name = "lastrestockeddate")
     private LocalDateTime lastRestockedDate;
 
-    @Column(name = "DaysInInventory")
+    @Column(name = "daysininventory")
     private Integer daysInInventory;
 
 }
