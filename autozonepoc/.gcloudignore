@@ -1,0 +1,7 @@
+# Ignore common files that shouldn't be uploaded
+.gcloudignore
+.git
+.idea
+target/
+*.log
+*.tmp
