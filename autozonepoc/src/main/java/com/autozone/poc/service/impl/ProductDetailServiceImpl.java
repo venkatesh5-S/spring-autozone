@@ -1,6 +1,8 @@
 package com.autozone.poc.service.impl;
 
+import com.autozone.poc.constants.Constants;
 import com.autozone.poc.entity.ProductDetails;
+import com.autozone.poc.exception.ProductDetailsNotFoundException;
 import com.autozone.poc.mapper.ProductDetailsMapper;
 import com.autozone.poc.repository.ProductDetailRepository;
 import com.autozone.poc.request.ProductDetailRequest;
@@ -33,11 +35,19 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     }
 
     @Override
-    public String addProdDetails(ProductDetailRequest productDetailRequest) {
+    public ProductDetailResponseDto addProdDetails(ProductDetailRequest productDetailRequest) {
+        ProductDetails productDetails;
 
-        productDetailRepository.save(productDetailsMapper.transform(productDetailRequest));
+        try {
 
-        return "SAVED SUCCESSFULLY";
+
+            productDetails = productDetailRepository.save(productDetailsMapper.transform(productDetailRequest));
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return productDetailsMapper.transform(productDetails);
 
 
     }
@@ -55,7 +65,9 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
             return productDetailsMapper.transform(productDetails1);
         } else {
-            throw new RuntimeException();
+
+            Exception e = new ProductDetailsNotFoundException(Constants.PRODUCT_DETAILS_NOT_FOUND_DESC);
+            throw new ProductDetailsNotFoundException(e);
         }
 
     }
@@ -70,7 +82,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         if (productDetails.isPresent()) {
             ProductDetails productDetails1 = productDetails.get();
             ProductDetails updatedProductDetails = productDetailsMapper.transform(productDetailRequest);
-            updatedProductDetails.setId(id);
+            updatedProductDetails.setPartID(id);
             productDetailRepository.save(updatedProductDetails);
 
             return productDetailsMapper.transform(updatedProductDetails);
@@ -78,7 +90,8 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 
         } else {
 
-            throw new RuntimeException();
+            Exception e = new ProductDetailsNotFoundException(Constants.PRODUCT_DETAILS_NOT_FOUND_DESC);
+            throw new ProductDetailsNotFoundException(e);
         }
     }
 

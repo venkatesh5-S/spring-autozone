@@ -1,10 +1,10 @@
 package com.autozone.poc.controller;
 
 
+import com.autozone.poc.exception.ProductDetailsNotFoundException;
 import com.autozone.poc.request.ProductDetailRequest;
 import com.autozone.poc.response.ProductDetailResponseDto;
 import com.autozone.poc.service.impl.ProductDetailService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +25,20 @@ public class ProductDetailsController {
     }
 
     @PostMapping(value = "/details")
-    public String addProdDetails(@RequestBody ProductDetailRequest productDetailRequest) {
+    public ProductDetailResponseDto addProdDetails(@RequestBody ProductDetailRequest productDetailRequest) {
 
-        return productDetailService.addProdDetails(productDetailRequest);
+
+
+
+//        try {
+
+            return productDetailService.addProdDetails(productDetailRequest);
+
+//        }
+//        catch (Exception e){
+//            handleException(e);
+//        }
+
 
     }
 
@@ -35,10 +46,18 @@ public class ProductDetailsController {
 
 
     @GetMapping(value="/details/{id}")
-    public ProductDetailResponseDto getProductDetailsById(@PathVariable Integer id){
+    public ProductDetailResponseDto getProductDetailsById(@PathVariable Integer id) {
 
+//        try {
+            return productDetailService.getProductDetailsById(id);
+//        }
 
-     return    productDetailService.getProductDetailsById(id);
+//        catch (Exception e){
+//
+//        handleException(e);
+//
+//        }
+//        return null;
     }
 
 
@@ -50,6 +69,19 @@ public class ProductDetailsController {
        return      productDetailService.updateProductDetails(id,productDetailRequest);
 
     }
+
+
+//    public void handleException( Exception e){
+//
+//
+//
+//        if( e instanceof ProductDetailsNotFoundException){
+//            throw new ProductDetailsNotFoundException(e);
+//        }
+//    }
+
+
+
 
 
 

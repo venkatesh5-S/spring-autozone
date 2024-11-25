@@ -15,14 +15,12 @@ import java.time.LocalDateTime;
 @Table(name="Product_Details")
 public class ProductDetails {
 
-    @Id
 
+    @Id
     @SequenceGenerator(name="id",sequenceName = "products_details_seq",allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
-    private Integer id;
-
     @Column(name = "partid", length = 100)
-    private String partID;
+    private Integer partID;
 
     @Column(name = "partname", length = 100)
     private String partName;

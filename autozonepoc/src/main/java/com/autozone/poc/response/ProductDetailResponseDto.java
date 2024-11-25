@@ -14,8 +14,6 @@ public class ProductDetailResponseDto {
 
 
 
-    public Integer id;
-
     public String partID;
 
 

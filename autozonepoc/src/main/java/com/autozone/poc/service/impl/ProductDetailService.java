@@ -12,11 +12,11 @@ public interface ProductDetailService {
     public List<ProductDetailResponseDto> getAllProductDetails();
 
 
-    public String addProdDetails(ProductDetailRequest productDetailRequest);
+    public ProductDetailResponseDto addProdDetails(ProductDetailRequest productDetailRequest);
 
 
     public ProductDetailResponseDto getProductDetailsById(Integer id);
 
 
-    public ProductDetailResponseDto updateProductDetails(Integer id,ProductDetailRequest productDetailRequest);
+    public ProductDetailResponseDto updateProductDetails(Integer  id,ProductDetailRequest productDetailRequest);
 }
