@@ -78,4 +78,6 @@ public class ProductDetails {
     @Column(name = "daysininventory")
     private Integer daysInInventory;
 
+    @Column(name="image")
+    private String image;
 }

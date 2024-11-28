@@ -16,15 +16,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface ProductDetailsMapper {
 
-
     ProductDetailResponseDto transform(ProductDetails productDetails);
-
-
-
-
-
-
-
     @Mapping(target = "material", defaultValue = "steel")
     @Mapping(target = "dimensions", defaultValue = "10\\\"X10\\\"X10\\\"")
     @Mapping(target = "restockLeadTime", defaultValue = "1")
@@ -34,15 +26,9 @@ public interface ProductDetailsMapper {
     @Mapping(target = "locationInWarehouse", defaultValue = "Aisle 2, Shelf B")
     @Mapping(target = "daysInInventory", defaultValue = "5")
     @Mapping(target = "lastRestockedDate", expression = "java(handleDefaultLastRestockedDate(productDetailRequest.getLastRestockedDate()))")
-
     ProductDetails transform(ProductDetailRequest productDetailRequest);
-
-
     default List<ProductDetailResponseDto> transformListTo(List<ProductDetails> list){
-
-
         return list.stream().map(productDetails->this.transform(productDetails)).collect(Collectors.toList());
-
     }
 
     // Utility methods to handle default logic

@@ -1,10 +1,11 @@
 package com.autozone.poc.controller;
 
 
-import com.autozone.poc.exception.ProductDetailsNotFoundException;
+import com.autozone.poc.entity.ProductDetailsNew;
 import com.autozone.poc.request.ProductDetailRequest;
 import com.autozone.poc.response.ProductDetailResponseDto;
-import com.autozone.poc.service.impl.ProductDetailService;
+import com.autozone.poc.service.ProductDetailService;
+import com.autozone.poc.service.impl.ProductDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,31 +19,30 @@ public class ProductDetailsController {
     @Autowired
     ProductDetailService productDetailService;
 
-    @GetMapping(value = "/details")
-    public List<ProductDetailResponseDto> getProductDetails() {
+    @Autowired
+    ProductDetailServiceImpl productDetailServiceImpl;
 
+    @GetMapping(value = "/details")
+    public List<ProductDetailResponseDto> getProductDetailsOld() {
         return productDetailService.getAllProductDetails();
+//        return productDetailService.getAllProductDetailsNew();
+    }
+
+    @GetMapping(value = "/details/get")
+    public List<ProductDetailsNew> getProductDetails() {
+//        return productDetailService.getAllProductDetails();
+        return productDetailService.getAllProductDetailsNew();
     }
 
     @PostMapping(value = "/details")
     public ProductDetailResponseDto addProdDetails(@RequestBody ProductDetailRequest productDetailRequest) {
-
-
-
-
-//        try {
-
             return productDetailService.addProdDetails(productDetailRequest);
-
-//        }
-//        catch (Exception e){
-//            handleException(e);
-//        }
-
-
     }
 
-
+    @PostMapping(value = "/details/post")
+    public ProductDetailsNew addProdDetailsNew(@RequestBody ProductDetailsNew productDetails) {
+        return productDetailService.addProdDetails(productDetails);
+    }
 
 
     @GetMapping(value="/details/{id}")
