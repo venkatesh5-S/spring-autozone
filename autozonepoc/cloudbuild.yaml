@@ -46,6 +46,7 @@ steps:
       - 'managed'  # Use the fully managed Cloud Run
       - '--allow-unauthenticated'  # Optional, if you want public access
 
+
 # Define Substitutions
 substitutions:
   _PROJECT_ID: 'demopocs'  # Replace with your project ID
